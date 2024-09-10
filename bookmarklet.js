@@ -18,7 +18,7 @@
         });
 
         entries.sort((a, b) => b.volume - a.volume)
-        entries = entries.slice(0, 50)
+        entries = entries.slice(0, 80)
         entries.sort((a, b) => b.priceInCents - a.priceInCents)
 
         window.prompt('QD JSON', JSON.stringify(entries));

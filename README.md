@@ -26,7 +26,7 @@ TradingView script to print dark pool levels using data from Quant Data.
 4. Edit the bookmark and replace the URL with the following string, turning it into a bookmarklet:
 
 ```js
-javascript:(()=>{const{fetch:a}=window;window.fetch=async(...b)=>{const c=await a(...b);return c.clone().json().then(a=>{const b=a?.response?.priceInCentsToDarkPoolLevelDataSumModelMap;if(!b)return;let c=Object.entries(b).map(([a,{sizeSum:b}])=>({priceInCents:parseInt(a),volume:b}));c.sort((c,a)=>a.volume-c.volume),c=c.slice(0,50),c.sort((c,a)=>a.priceInCents-c.priceInCents),window.prompt("QD JSON",JSON.stringify(c))}).catch(a=>console.error(a)),c}})();
+javascript:(()=>{const{fetch:a}=window;window.fetch=async(...b)=>{const c=await a(...b);return c.clone().json().then(a=>{const b=a?.response?.priceInCentsToDarkPoolLevelDataSumModelMap;if(!b)return;let c=Object.entries(b).map(([a,{sizeSum:b}])=>({priceInCents:parseInt(a),volume:b}));c.sort((c,a)=>a.volume-c.volume),c=c.slice(0,80),c.sort((c,a)=>a.priceInCents-c.priceInCents),window.prompt("QD JSON",JSON.stringify(c))}).catch(a=>console.error(a)),c}})();
 ```
 
 ![screenshot](https://github.com/pstadler/tradingview-qd-dp-levels/blob/main/qd-custom-page.png?raw=true)
