@@ -20,14 +20,16 @@ TradingView script to print dark pool levels using data from Quant Data.
 
 ### Quant Data
 
-1. Create a custom page on [Quant Data](https://v3.quantdata.us) two `Dark Pool Levels` tools.
+1. Create a custom page on [Quant Data](https://v3.quantdata.us) with two `Dark Pool Levels` tools.
 2. Select the desired tickers (usually `SPY` and `QQQ`) and an appropriate date range of about 2-3 months.
-3. Add the following bookmark to your browser: [Capture QD DP Levels]()
-4. Edit the bookmark and replace the URL with the following string, turning it into a bookmarklet:
+3. Create a browser bookmark named `Capture QD DP Levels`.
+4. Edit the bookmark and replace its URL with the following string:
 
 ```js
-javascript:(()=>{const{fetch:a}=window;window.fetch=async(...b)=>{const c=await a(...b);return c.clone().json().then(a=>{const b=a?.response?.priceInCentsToDarkPoolLevelDataSumModelMap;if(!b)return;let c=Object.entries(b).map(([a,{sizeSum:b}])=>({priceInCents:parseInt(a),volume:b}));c.sort((c,a)=>a.volume-c.volume),c=c.slice(0,80),c.sort((c,a)=>a.priceInCents-c.priceInCents),window.prompt("QD JSON",JSON.stringify(c))}).catch(a=>console.error(a)),c}})();
+javascript:(()=>{const p=a=>{const b=a?.response?.priceInCentsToDarkPoolLevelDataSumModelMap;if(!b)return;let c=Object.entries(b).map(([a,{sizeSum:b}])=>({priceInCents:parseInt(a),volume:b}));c.sort((a,b)=>b.volume-a.volume),c=c.slice(0,80),c.sort((a,b)=>b.priceInCents-a.priceInCents),window.prompt("QD JSON",JSON.stringify(c))},r=a=>{if(typeof a==="string")try{p(JSON.parse(a))}catch(b){console.error(b)}else p(a)},{fetch:f}=window;window.fetch=async(...a)=>{const b=await f(...a);return b.clone().json().then(p).catch(a=>console.error(a)),b};const{send:s}=XMLHttpRequest.prototype;XMLHttpRequest.prototype.send=function(...a){return this.addEventListener("load",()=>{this.responseType==="json"?r(this.response):this.responseType===""||this.responseType==="text"?r(this.responseText):void 0}),s.apply(this,a)}})();
 ```
+
+The bookmarklet captures matching responses made with either `fetch` or `XMLHttpRequest`.
 
 ![screenshot](https://github.com/pstadler/tradingview-qd-dp-levels/blob/main/qd-custom-page.png?raw=true)
 
@@ -35,9 +37,10 @@ javascript:(()=>{const{fetch:a}=window;window.fetch=async(...b)=>{const c=await 
 
 1. Open the QD DP Levels script settings in TradingView.
 2. Open [Quant Data](https://v3.quantdata.us).
-3. Click on the bookmarklet you've previously added. This must be done **before** the next step.
-4. Access your custom dark pool levels page on Quant Data.
-5. Two native browser prompts should appear sequentially. Copy the data presented to you and paste it to the according TradingView script settings.
+3. Access your custom dark pool levels page on Quant Data.
+4. Click on the bookmarklet you've previously added. This must be done **before** the next step.
+5. Change the date range for your widget.
+6. A native browser prompt should appear. Copy the data presented to you and paste it to the according TradingView script settings. If you selected only one date, ignore the prompt until you entered the end (or start) date to complete the range.
 
 <img src="https://github.com/pstadler/tradingview-qd-dp-levels/blob/main/tv-script-settings.png?raw=true" width="250"> <img src="https://github.com/pstadler/tradingview-qd-dp-levels/blob/main/qd-bookmarklet-prompt.png?raw=true" width="250">
 
